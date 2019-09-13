@@ -1,0 +1,105 @@
+﻿@model FinanceApplication.ViewModels.LoanViewModel
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    <div>
+        <table style="width: 35%;" class="style1">
+            <tr>
+                <td>Vehicle Cost</td>
+                <td>@Html.TextBoxFor(model => model.Amount)</td>
+                <td>@Html.ValidationMessageFor(model => model.Amount)</td>
+            </tr>
+            <tr>
+                <td>Enter Deposit</td>
+                <td>@Html.TextBoxFor(model => model.Deposit)</td>
+                <td>@Html.ValidationMessageFor(model => model.Deposit, "", new { @class = "text-danger" })</td>
+    </tr>
+            <tr>
+                <td>Finance Option</td>
+                <td>
+                    @Html.DropDownListFor(model => model.Term, new SelectList(Enum.GetValues(typeof(Options))),
+        "Select Option", new { @class = "form-control" })
+                </td>
+                <td>@Html.ValidationMessageFor(model => model.Term)</td>
+            </tr>
+            <tr>
+                <td>Delivery Date</td>
+                <td>
+                    @Html.EditorFor(model => model.Deliverydate)
+                </td>
+                <td>@Html.ValidationMessageFor(model => model.Deliverydate)</td>
+            </tr>
+    <tr>
+        <td>Arrangement Fee</td>
+        <td>@Html.TextBoxFor(model => model.ArrangementFee)</td>
+    </tr>
+    <tr>
+        <td>Completion Fee</td>
+        <td>@Html.TextBoxFor(model => model.CompletionFee)</td>
+    </tr>
+    <tr>
+        <td>
+            <input type="submit" id="btnSubmit" value="Submit" onclick="myFunction();" />
+        </td>
+    </tr>
+    </table>
+    </div>
+    <div id="loan-form" class="text-left">
+        <h1>Payment Schedule</h1>
+        <table  style="width: 45%;" class="style1">
+            <tr>
+                <td>Amount (£)</td>
+                <td>@Html.DisplayFor(model => model.Amount)</td>
+            </tr>
+            <tr>
+                <td>Loan Amount (£)</td>
+                <td>@Html.DisplayFor(model => model.LoanAmount)</td>
+            </tr>
+            <tr>
+                <td>Deposit (£)</td>
+                <td>@Html.DisplayFor(model => model.Deposit)</td>
+            </tr>
+            <tr>
+                <td>Term (years)</td>
+                <td>@Html.DisplayFor(model => model.Term)</td>
+            </tr>
+            <tr>
+                <td>Delivery Date</td>
+                <td>@Html.DisplayFor(model => model.Deliverydate)</td>
+            </tr>
+            <tr>
+                <td>
+                    <h6>The payment schedule will include Arrangement and Completion fees</h6>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table table-striped" >
+                        <thead>
+                            <tr>
+                                <th>Payment Date</th>
+                                <th>Payment Amount (£) </th>
+                                <th>Total Loan Amount Paid (£) </th>
+                                <th>Balance (£) </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.PaymentSchedule)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.PaymentDate)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PaymentAmount)</td>
+                                    <td> @Html.DisplayFor(modelItem => item.TotalPaid) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.RemainingBalance) </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+
+
